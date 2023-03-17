@@ -3,6 +3,9 @@ const concat = require('gulp-concat')
 const cssmin = require('gulp-cssmin')
 const rename = require('gulp-rename')
 const uglify = require('gulp-uglify')
+const stripJs = require('gulp-strip-comments')
+const stripCss = require('gulp-strip-css-comments')
+
 async function tarefasImagem() {
         const { default: imagemin } = await import('gulp-imagemin');
       
@@ -22,6 +25,7 @@ function tarefasJS(){
             './src/js/custom.js'
         ])
                 .pipe(concat('scripts.js'))
+                .pipe(stripJs())
                 .pipe(uglify())
                 .pipe(rename({suffix: '.min'}))
                 .pipe(gulp.dest('./dist/js'))
@@ -30,6 +34,7 @@ function tarefasJS(){
 function tarefasCSS(cb){
         return gulp.src('./vendor/**/*.css')
                 .pipe(concat('style.css'))
+                .pipe(stripCss())
                 .pipe(cssmin())
                 .pipe(rename({ suffix : '.min'}))
                 .pipe(gulp.dest('./dist'))
